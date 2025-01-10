@@ -1,0 +1,111 @@
+server:
+  http2:
+    enabled: false
+  compression:
+    enabled: true
+  tomcat:
+    uri-encoding: UTF-8
+    #最大等待队列长度，当线程数量达到上面设置的值，所能接受的最大排队数量。超过了这个值，请求就会被拒绝。我一般会设置成和maxThreads设置成一样大的 默认100
+    accept-count: 500
+    threads:
+      max: 500  #最大线程数，一般来说，在高并发的I/O密集型应用中，这个值设置为1000左右比较合理 默认200
+      min-spare: 100  #最小线程数，一直处于活跃状态的线程数 默认10
+  port: 8090
+spring:
+  application:
+    name: springboot3-vue3
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 200MB
+  datasource:
+    url: jdbc:mysql://localhost:3306/class_manage?autoReconnect=true&initialTimeout=3&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      #连接池名
+      pool-name: HikariCP
+      #最小空闲连接数
+      minimum-idle: 5
+      # 空闲连接存活最大时间，默认10分钟
+      idle-timeout: 600000
+      # 连接池最大连接数，默认是10
+      maximum-pool-size: 10
+      # 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      auto-commit: true
+      # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认30分钟
+      max-lifetime: 1800000
+      # 数据库连接超时时间,默认30秒
+      connection-timeout: 30000
+      # 连接测试query
+      connection-test-query: SELECT 1
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+nacos:
+  discovery:
+    server-addr: 127.0.0.1:8848
+    username: nacos
+    password: nacos
+    #是否将本应用注册到nacos服务列表，默认是false
+    auto-register: true
+    #本服务所属的命名空间的ID，默认是空，也就是public
+    namespace: 27974237-b512-4b88-b74d-9a07cf993443
+    register:
+      #本服务是否接受外部的请求，默认true
+      enabled: true
+      #本服务要注册到命名空间下的哪个组，默认DEFAULT_GROUP
+      group-name: DEV_GROUP
+  config:
+    server-addr: 127.0.0.1:8848
+    username: nacos
+    password: nacos
+    #type: yaml       #加上报错，无法启动java.lang.NoSuchMethodError: org.yaml.snakeyaml.constructor.SafeConstructor: method 'void <init>()' not found
+    auto-refresh: true
+    namespace: 27974237-b512-4b88-b74d-9a07cf993443
+    data-id: springboot3-vue3.yml
+    group: DEV_GROUP
+    bootstrap:
+      enable: true
+    remote-first: true
+
+############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+sa-token:
+  # token 名称（同时也是 cookie 名称）
+  token-name: token
+  # token 有效期（单位：秒） 默认30天，-1 代表永久有效
+  timeout: 2592000
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: true
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: simple-uuid
+  # 是否输出操作日志
+  is-log: true
+
+#mybatis-plus
+mybatis-flex:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: com.boot.server.cross.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+dromara:
+  x-file-storage: #文件存储配置，不使用的情况下可以不写
+    default-platform: local-plus-1 #默认使用的存储平台
+    local-plus: # 本地存储升级版
+      - platform: local-plus-1 # 存储平台标识
+        enable-storage: true  #启用存储
+        enable-access: true #启用访问（线上请使用 Nginx 配置，效率更高）
+        domain: "http://127.0.0.1:8090" # 访问域名，例如：“http://127.0.0.1:8030/”，注意后面要和 path-patterns 保持一致，“/”结尾，本地存储建议使用相对路径，方便后期更换域名
+        base-path: "/file/" # 基础路径
+        path-patterns: /** # 访问路径
+        storage-path: D:\home # 存储路径

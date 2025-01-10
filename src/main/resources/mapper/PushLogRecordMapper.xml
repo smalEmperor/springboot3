@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vue.boot.spring.study.mapper.PushLogRecordMapper">
+
+    <sql id="Base_Column_List">
+        id,imei,app_key,
+        push_type,push_status,push_count,
+        success_count,fail_count,read_count,
+        unread_count,success_rate,fail_rate,
+        record_time,record_year,record_month,
+        record_day,create_time
+    </sql>
+</mapper>

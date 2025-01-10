@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vue.boot.spring.study.mapper.MemberDeviceMapper">
+
+    <sql id="Base_Column_List">
+        id,person_nick_name,identity_card,
+        police_number,organization_code,head_portrait,
+        person_status,orga_simple_name,orga_full_name,
+        orga_name,network_number,safe_imei1,
+        safe_imei2,person_imei1,person_imei2,
+        device_type,update_date,create_date,
+        ip1,ip2
+    </sql>
+</mapper>
